@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load form_filters %}
+
+{% block title %}
+{% trans "Login" %}
+{% endblock title %}
+
+{% block description %}
+{% trans "" %}
+{% endblock description %}
+
+{% block scripts %}
+<script>
+
+    let loginUrl = "{% url 'users:login' %}";
+
+</script>
+
+<script src="{% static 'js/login.js' %}" defer></script>
+
+{% endblock scripts %}
+
+{% block header %}
+
+    {% include 'navigation.html' %}
+
+{% endblock header %}
+
+{% block content %}
+
+    <div class="container">
+        <h2 class="text-center">Login</h2>
+        <form method="post" id="login-form">
+            {% csrf_token %}
+            {{ form.errors }}
+            <div class="form-floating mb-3">
+                {{ form.username|add_class_if_error:"is-invalid" }}
+                <label for="{{ form.username.id_for_label }}">Username</label>
+                {% if form.username.errors %}
+                    <div class="invalid-feedback">{{ form.username.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-floating mb-3">
+                {{ form.password|add_class_if_error:"is-invalid" }}
+                <label for="{{ form.password.id_for_label }}">Password</label>
+                {% if form.password.errors %}
+                    <div class="invalid-feedback">{{ form.password.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            {% if form.errors %}
+
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <div class="invalid-feedback">{{ error }}</div>
+                    {% endfor %}
+                {% endfor %}
+
+            {% endif %}
+
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+        </form>
+
+    </div>
+
+{% endblock content %}
