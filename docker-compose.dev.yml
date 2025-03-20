@@ -36,7 +36,7 @@ services:
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_HOST=db
       - DB_PORT=5432
-      - DJANGO_SETTINGS_MODULE=config.settings.settings_development
+      - DJANGO_SETTINGS_MODULE=bloggies.settings.settings_development
     depends_on:
       - db
 
