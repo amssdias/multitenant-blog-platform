@@ -51,6 +51,7 @@ INSTALLED_APPS = SHARED_APPS + [app for app in TENANT_APPS if app not in SHARED_
 
 
 MIDDLEWARE = [
+    "django_tenants.middleware.main.TenantMainMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -61,6 +62,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "bloggies.urls"
+PUBLIC_SCHEMA_URLCONF = "bloggies.urls_public"
 
 TEMPLATES = [
     {
@@ -155,6 +157,7 @@ CACHES = {
 }
 
 # Multi Tenancy
+SHOW_PUBLIC_IF_NO_TENANT_FOUND = True
 TENANT_MODEL = "tenants.Tenant"
 TENANT_DOMAIN_MODEL = "tenants.Domain"
 DATABASE_ROUTERS = (
