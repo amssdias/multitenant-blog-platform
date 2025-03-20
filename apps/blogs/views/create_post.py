@@ -1,14 +1,19 @@
-from django.contrib.auth import get_user_model
 from django.core.cache import cache
-from django.views.generic import TemplateView
+from django.urls import reverse_lazy
+from django.views.generic.edit import FormView
 
 from apps.blogs.forms.post_form import PostForm
 
-User = get_user_model()
 
+class PostCreateView(FormView):
+    template_name = "blogs/post_form.html"
+    form_class = PostForm
+    success_url = reverse_lazy("blogs:tenant_index")
 
-class TenantDashboardView(TemplateView):
-    template_name = "blogs/index.html"
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        post.save()
+        return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         """Check for auth token and provide user data in template context."""

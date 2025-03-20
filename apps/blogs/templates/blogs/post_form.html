@@ -67,8 +67,20 @@
 {% block content %}
 
 {% if user_authenticated %}
-<div class="d-flex">
-	<a href="{% url 'blogs:create-post' %}" class="btn btn-primary">Create Post</a>
+<div class="container">
+	<form method="post" action="{% url 'blogs:create-post' %}">
+		{% csrf_token %}
+		<div class="form-floating mb-3">
+			{{ form.title }}
+			<label for="{{ form.title.id_for_label }}">Title</label>
+		</div>
+
+		<div class="form-floating">
+			{{ form.content }}
+			<label for="{{ form.content.id_for_label }}">Content</label>
+		</div>
+		<button type="submit" class="btn btn-primary">Sign Up</button>
+	</form>
 </div>
 {% endif %}
 
