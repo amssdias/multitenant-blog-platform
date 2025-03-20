@@ -11,8 +11,7 @@ class PostCreateView(FormView):
     success_url = reverse_lazy("blogs:tenant_index")
 
     def form_valid(self, form):
-        post = form.save(commit=False)
-        post.save()
+        form.save(commit=True)
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
