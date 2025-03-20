@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}
+{% trans "Tenant Blog" %}
+{% endblock title %}
+
+{% block description %}
+{% trans "" %}
+{% endblock description %}
+
+{% block scripts %}
+
+{% endblock scripts %}
+
+{% block header %}
+<header>
+
+	<nav class="navbar navbar-expand-md navbar-light bg-light">
+		<div class="container">
+			<!-- Logo -->
+			<a class="navbar-brand" href="/">
+				<img src="https://via.placeholder.com/40" alt="Logo" class="d-inline-block align-text-top">
+				Bloggies
+			</a>
+
+			<!-- Navbar Toggler (for mobile view) -->
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<!-- Centered Menu Links -->
+			<div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+				<ul class="navbar-nav">
+					<li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Articles</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">About</a></li>
+				</ul>
+			</div>
+
+			<!-- Log out Button (Right Aligned) -->
+			{% if user_authenticated %}
+			<div class="d-flex">
+				<form method="post" action="#">
+					{% csrf_token %}
+					<button class="btn btn-primary" type="submit">Log out</button>
+
+				</form>
+			</div>
+			{% endif %}
+		</div>
+	</nav>
+
+	<header class="container-fluid bg-light text-center py-5">
+		<div class="container">
+			<h1 class="display-4">Tenant Blog</h1>
+			<p class="lead">Tenant subheadling.</p>
+			<a href="#" class="btn btn-primary btn-lg">See all articles</a>
+		</div>
+	</header>
+
+
+</header>
+{% endblock header %}
+
+{% block content %}
+
+
+{% endblock content %}
