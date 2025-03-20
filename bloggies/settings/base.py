@@ -26,17 +26,24 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
-# Application definition
-INSTALLED_APPS = [
+SHARED_APPS = [
+    "django_tenants",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "users",
+    "apps.tenants",
+    "apps.users",
 ]
+
+TENANT_APPS = [
+    "django.contrib.contenttypes",
+]
+
+INSTALLED_APPS = SHARED_APPS + [app for app in TENANT_APPS if app not in SHARED_APPS]
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -53,7 +60,7 @@ ROOT_URLCONF = "bloggies.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [os.path.join(BASE_DIR, "templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -141,3 +148,10 @@ CACHES = {
         },
     }
 }
+
+# Multi Tenancy
+TENANT_MODEL = "tenants.Tenant"
+TENANT_DOMAIN_MODEL = "tenants.Domain"
+DATABASE_ROUTERS = (
+    'django_tenants.routers.TenantSyncRouter',
+)
