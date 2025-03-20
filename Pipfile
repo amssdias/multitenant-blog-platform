@@ -8,6 +8,7 @@ django = "*"
 django-tenants = "*"
 redis = "*"
 psycopg = { extras = ["binary"], version = "*" }
+python-dotenv = "*"
 
 [dev-packages]
 
