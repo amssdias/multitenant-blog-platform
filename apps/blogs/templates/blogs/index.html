@@ -42,7 +42,7 @@
 			<!-- Log out Button (Right Aligned) -->
 			{% if user_authenticated %}
 			<div class="d-flex">
-				<form method="post" action="#">
+				<form method="post" action="{% url 'blogs:logout' %}">
 					{% csrf_token %}
 					<button class="btn btn-primary" type="submit">Log out</button>
 
