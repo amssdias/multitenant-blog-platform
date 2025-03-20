@@ -160,3 +160,5 @@ TENANT_DOMAIN_MODEL = "tenants.Domain"
 DATABASE_ROUTERS = (
     'django_tenants.routers.TenantSyncRouter',
 )
+
+COOKIE_NAME = "auth_token"
