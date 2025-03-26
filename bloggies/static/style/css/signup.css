@@ -1,0 +1,55 @@
+.signup-wrapper {
+    padding: 4rem 0;
+    background: linear-gradient(to right, #f9f9fb, #eef1f9);
+}
+
+.signup-card {
+    background-color: #fff;
+    border-left: 5px solid #6c63ff;
+    padding: 2.5rem;
+    max-width: 550px;
+    margin: auto;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+}
+
+.signup-card h2 {
+    font-weight: 600;
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.form-floating > .form-control:focus {
+    border-color: #6c63ff;
+    box-shadow: 0 0 0 0.2rem rgba(108, 99, 255, 0.25);
+}
+
+.btn-signup {
+    background-color: #6c63ff;
+    border-color: #6c63ff;
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.btn-signup:hover {
+    background-color: #5952e2;
+}
+
+.signup-benefits {
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    color: #555;
+    padding-left: 1rem;
+}
+
+.signup-benefits li::before {
+    content: "✔️ ";
+    margin-right: 0.4rem;
+}
+
+.input-group .form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(108, 99, 255, 0.25);
+    border-color: #6c63ff;
+}

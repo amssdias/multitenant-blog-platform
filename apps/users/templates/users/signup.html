@@ -3,73 +3,90 @@
 {% load i18n %}
 {% load form_filters %}
 
-{% block title %}
-{% trans "Sign up" %}
-{% endblock title %}
+{% block title %}{% trans "Sign up" %}{% endblock title %}
 
-{% block description %}
-{% trans "" %}
-{% endblock description %}
+{% block css %}
+<!-- <link rel="stylesheet" href="{% static 'style/css/dashboard.css' %}"> -->
+<link rel="stylesheet" href="{% static 'style/css/main.css' %}">
+<link rel="stylesheet" href="{% static 'style/css/navbar.css' %}">
+<link rel="stylesheet" href="{% static 'style/css/signup.css' %}">
+<link rel="stylesheet" href="{% static 'style/css/btn.css' %}">
 
-{% block scripts %}
-
-{% endblock scripts %}
+{% endblock css %}
 
 {% block header %}
-
-    {% include 'navigation.html' %}
-
+{% include 'navigation.html' %}
 {% endblock header %}
 
 {% block content %}
+<div class="signup-wrapper">
+	<div class="signup-card">
+		<h2>Start Your Blog</h2>
+		<ul class="signup-benefits">
+			<li>Free forever — no hidden fees</li>
+			<li>Your own subdomain (you.multiblog.com)</li>
+			<li>Beautiful dashboard and themes</li>
+		</ul>
 
-    <div class="container">
-        <h2 class="text-center">Sign Up</h2>
-        <form method="post">
-            {% csrf_token %}
-            <div class="form-floating mb-3">
-                {{ form.username|add_class_if_error:"is-invalid" }}
-                <label for="{{ form.username.id_for_label }}">Username</label>
-                {% if form.username.errors %}
-                    <div class="invalid-feedback">{{ form.username.errors.0 }}</div>
-                {% endif %}
-            </div>
+		<form method="post" novalidate>
+			{% csrf_token %}
 
-            <div class="form-floating mb-3">
-                {{ form.email|add_class_if_error:"is-invalid" }}
-                <label for="{{ form.email.id_for_label }}">Email address</label>
-                {% if form.email.errors %}
-                    <div class="invalid-feedback">{{ form.email.errors.0 }}</div>
-                {% endif %}
-            </div>
+			<div class="form-floating mb-3">
 
-            <div class="form-floating mb-3">
-                {{ form.password1|add_class_if_error:"is-invalid" }}
-                <label for="{{ form.password1.id_for_label }}">Password</label>
-                {% if form.password1.errors %}
-                    <div class="invalid-feedback">{{ form.password1.errors.0 }}</div>
-                {% endif %}
-            </div>
+				{{ form.username|add_class_if_error:"is-invalid" }}
+				<label for="{{ form.username.id_for_label }}">Username</label>
 
-            <div class="form-floating mb-3">
-                {{ form.password2|add_class_if_error:"is-invalid" }}
-                <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
-                {% if form.password2.errors %}
-                    <div class="invalid-feedback">{{ form.password2.errors.0 }}</div>
-                {% endif %}
-            </div>
+				{% if form.username.errors %}
+				<div class="invalid-feedback">{{ form.username.errors.0 }}</div>
+				{% endif %}
+			</div>
 
-            <div class="input-group mb-3">
-                {{ form.subdomain|add_class_if_error:"is-invalid" }}
-                <span class="input-group-text" id="{{ form.subdomain.id_for_label }}">{{ request.get_host }}</span>
-                {% if form.subdomain.errors %}
-                    <div class="invalid-feedback">{{ form.subdomain.errors.0 }}</div>
-                {% endif %}
-            </div>
+			<div class="form-floating mb-3">
 
-            <button type="submit" class="btn btn-primary">Sign Up</button>
-        </form>
+				{{ form.email|add_class_if_error:"is-invalid" }}
+				<label for="{{ form.email.id_for_label }}">Email address</label>
 
-    </div>
+				{% if form.email.errors %}
+				<div class="invalid-feedback">{{ form.email.errors.0 }}</div>
+				{% endif %}
+			</div>
 
+			<div class="form-floating mb-3">
+
+				{{ form.password1|add_class_if_error:"is-invalid" }}
+				<label for="{{ form.password1.id_for_label }}">Password</label>
+
+				{% if form.password1.errors %}
+				<div class="invalid-feedback">{{ form.password1.errors.0 }}</div>
+				{% endif %}
+			</div>
+
+			<div class="form-floating mb-3">
+				{{ form.password2|add_class_if_error:"is-invalid" }}
+				<label for="{{ form.password2.id_for_label }}">Confirm Password</label>
+
+				{% if form.password2.errors %}
+				<div class="invalid-feedback">{{ form.password2.errors.0 }}</div>
+				{% endif %}
+			</div>
+
+			<div class="input-group mb-3">
+				{{ form.subdomain|add_class_if_error:"is-invalid" }}
+				<span class="input-group-text" id="{{ form.subdomain.id_for_label }}">{{ request.get_host }}</span>
+
+				{% if form.subdomain.errors %}
+				<div class="invalid-feedback d-block">{{ form.subdomain.errors.0 }}</div>
+				{% endif %}
+			</div>
+
+			<div class="d-grid">
+				<button type="submit" class="btn btn-primary btn-signup">Create My Blog</button>
+			</div>
+		</form>
+
+		<p class="text-center mt-3">
+			Already have an account? <a href="{% url 'users:login' %}">Log in</a>
+		</p>
+	</div>
+</div>
 {% endblock content %}
