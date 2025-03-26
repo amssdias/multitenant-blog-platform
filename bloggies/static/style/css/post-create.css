@@ -1,0 +1,46 @@
+.create-post-wrapper {
+	padding: 4rem 0;
+}
+
+.post-form {
+	max-width: 1200px;
+	margin: auto;
+	background: #fff;
+	padding: 2.5rem;
+	border-radius: 12px;
+	box-shadow: 0 8px 32px rgba(0,0,0,0.05);
+	border-left: 5px solid #6c63ff;
+}
+
+.post-form h2 {
+	font-size: 1.75rem;
+	font-weight: 600;
+	margin-bottom: 1.5rem;
+}
+
+trix-editor {
+	background: #f9f9f9;
+	border-radius: 8px;
+	padding: 1rem;
+	border: 1px solid #ccc;
+	min-height: 30rem;
+	line-height: 1.6;
+	font-size: 1rem;
+}
+  
+
+trix-editor:focus {
+	border-color: #6c63ff;
+	box-shadow: 0 0 0 0.15rem rgba(108, 99, 255, 0.25);
+}
+
+.btn-submit {
+	background-color: #6c63ff;
+	border-color: #6c63ff;
+	padding: 0.6rem 2rem;
+	border-radius: 8px;
+}
+
+.btn-submit:hover {
+	background-color: #5952e2;
+}

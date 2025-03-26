@@ -8,11 +8,6 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ("title", "content")
         widgets = {
-            "title": forms.TextInput(attrs={"class": "form-control"}),
-            "content": forms.Textarea(attrs={
-                "class": "form-control w-100",
-                "placeholder": "Write your content here",
-                "style": "height: 300px",
-                "wrap": "soft",
-            }),
+            "title": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter your post title"}),
+            "content": forms.HiddenInput(),
         }

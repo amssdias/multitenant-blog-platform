@@ -1,87 +1,70 @@
 {% extends "base.html" %}
 {% load static %}
 {% load i18n %}
+{% load form_filters %}
 
-{% block title %}
-{% trans "Tenant Blog" %}
-{% endblock title %}
+{% block title %}Create New Post{% endblock %}
 
-{% block description %}
-{% trans "" %}
-{% endblock description %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
+<link rel="stylesheet" href="{% static 'style/css/main.css' %}">
+<link rel="stylesheet" href="{% static 'style/css/blog.css' %}">
+<link rel="stylesheet" href="{% static 'style/css/post-create.css' %}">
+<link rel="stylesheet" href="{% static 'style/css/navbar-admin.css' %}">
+
+{% endblock css %}
 
 {% block scripts %}
-
+<script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
 {% endblock scripts %}
 
 {% block header %}
-<header>
-
-	<nav class="navbar navbar-expand-md navbar-light bg-light">
-		<div class="container">
-			<!-- Logo -->
-			<a class="navbar-brand" href="/">
-				<img src="https://via.placeholder.com/40" alt="Logo" class="d-inline-block align-text-top">
-				Bloggies
-			</a>
-
-			<!-- Navbar Toggler (for mobile view) -->
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-
-			<!-- Centered Menu Links -->
-			<div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-				<ul class="navbar-nav">
-					<li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">Articles</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">About</a></li>
-				</ul>
-			</div>
-
-			<!-- Log out Button (Right Aligned) -->
-			{% if user_authenticated %}
-			<div class="d-flex">
-				<form method="post" action="#">
-					{% csrf_token %}
-					<button class="btn btn-primary" type="submit">Log out</button>
-
-				</form>
-			</div>
-			{% endif %}
-		</div>
-	</nav>
-
-	<header class="container-fluid bg-light text-center py-5">
-		<div class="container">
-			<h1 class="display-4">Tenant Blog</h1>
-			<p class="lead">Tenant subheadling.</p>
-			<a href="#" class="btn btn-primary btn-lg">See all articles</a>
-		</div>
-	</header>
-
-
-</header>
-{% endblock header %}
-
-{% block content %}
 
 {% if user_authenticated %}
-<div class="container">
-	<form method="post" action="{% url 'blogs:create-post' %}">
-		{% csrf_token %}
-		<div class="form-floating mb-3">
-			{{ form.title }}
-			<label for="{{ form.title.id_for_label }}">Title</label>
-		</div>
-
-		<div class="form-floating">
-			{{ form.content }}
-			<label for="{{ form.content.id_for_label }}">Content</label>
-		</div>
-		<button type="submit" class="btn btn-primary">Sign Up</button>
-	</form>
-</div>
+<nav class="navbar admin-nav">
+	<div class="container-fluid justify-content-end">
+		<ul class="nav">
+			<li class="nav-item">
+				<a class="nav-link" href="#">Edit Hero</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#">Settings</a>
+			</li>
+			<form method="post" action="{% url 'blogs:logout' %}">
+				{% csrf_token %}
+				<button class="btn btn-primary" type="submit">Log out</button>
+			</form>
+		</ul>
+	</div>
+</nav>
 {% endif %}
 
+
+{% endblock header %}
+
+
+{% block content %}
+<div class="container create-post-wrapper">
+	<div class="post-form">
+		<h2>Create a New Post</h2>
+		<form method="POST" action="{% url 'blogs:create-post' %}">
+			{% csrf_token %}
+
+			<div class="form-floating mb-3">
+				{{ form.title|add_class_if_error:"is-invalid" }}
+				<label for="{{ form.title.id_for_label }}">Post Title</label>
+				{% if form.title.errors %}
+				<div class="invalid-feedback">{{ form.title.errors.0 }}</div>
+				{% endif %}
+			</div>
+
+			<input id="id_content" type="hidden" name="content">
+			<trix-editor input="id_content"></trix-editor>
+
+			<div class="mt-4 text-end">
+				<button type="submit" class="btn btn-primary btn-submit">Publish</button>
+			</div>
+		</form>
+	</div>
+</div>
 {% endblock content %}
