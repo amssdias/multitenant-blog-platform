@@ -10,91 +10,85 @@
 {% trans "" %}
 {% endblock description %}
 
-{% block scripts %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'style/css/blog.css' %}">
+{% endblock css %}
 
+{% block scripts %}
 {% endblock scripts %}
 
 {% block header %}
-<header>
 
-	<nav class="navbar navbar-expand-md navbar-light bg-light">
-		<div class="container">
-			<!-- Logo -->
-			<a class="navbar-brand" href="/">
-				<img src="https://via.placeholder.com/40" alt="Logo" class="d-inline-block align-text-top">
-				Bloggies
-			</a>
+{% if user_authenticated %}
+<nav class="navbar admin-nav">
+    <div class="container-fluid justify-content-end">
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Edit Hero</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Settings</a>
+            </li>
+            <form method="post" action="{% url 'blogs:logout' %}">
+                {% csrf_token %}
+                <button class="btn btn-primary" type="submit">Log out</button>
+            </form>
+        </ul>
+    </div>
+</nav>
+{% endif %}
 
-			<!-- Navbar Toggler (for mobile view) -->
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-
-			<!-- Centered Menu Links -->
-			<div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-				<ul class="navbar-nav">
-					<li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">Articles</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">About</a></li>
-				</ul>
-			</div>
-
-			<!-- Log out Button (Right Aligned) -->
-			{% if user_authenticated %}
-			<div class="d-flex">
-				<form method="post" action="{% url 'blogs:logout' %}">
-					{% csrf_token %}
-					<button class="btn btn-primary" type="submit">Log out</button>
-
-				</form>
-			</div>
-			{% endif %}
-		</div>
-	</nav>
-
-	<header class="container-fluid bg-light text-center py-5">
-		<div class="container">
-			<h1 class="display-4">Tenant Blog</h1>
-			<p class="lead">Tenant subheadling.</p>
-			<a href="#" class="btn btn-primary btn-lg">See all articles</a>
-		</div>
-	</header>
-
-
+<!-- Hero -->
+<header class="hero">
+    <div class="hero-content">
+        <h1>John Doe's Blog</h1>
+        <p>Thoughts, stories, and ideas from a full-stack dev who loves building & sharing.</p>
+    </div>
 </header>
 
 {% endblock header %}
 
 {% block content %}
+<!-- Posts -->
+<div class="container py-5">
+    <div class="col-lg-8 mx-auto">
 
+        {% for post in posts %}
+        <div class="post-card position-relative">
+            {% if user_authenticated %}
+            <div class="post-actions position-absolute top-0 end-0 m-2">
+                <a href="#" class="btn btn-sm btn-outline-secondary me-1">Edit</a>
+                <form action="#" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                </form>
+            </div>
+            {% endif %}
+
+            <h4>{{ post.title }}</h4>
+            <small class="text-muted d-block mb-2">{{ post.created_at|date:"F j, Y" }}</small>
+            <div class="post-preview">{{ post.content|striptags|truncatechars:150 }}</div>
+            <a href="{% url 'blogs:post_detail' post.slug %}" class="read-more">Read More →</a>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+<!-- Floating Create New Post Button -->
 {% if user_authenticated %}
-<div class="d-flex">
-	<a href="{% url 'blogs:create-post' %}" class="btn btn-primary">Create Post</a>
+<div class="floating-btn">
+    <a href="{% url 'blogs:create-post' %}" class="btn btn-success btn-lg px-4 py-2 shadow rounded-pill">
+        ✍️ Create New Post
+    </a>
 </div>
 {% endif %}
 
-{% for post in posts %}
-<div class="container d-flex justify-content-center">
-	<div class="card w-75 mb-3">
-		<div class="card-body">
-			<div class="d-flex justify-content-between align-items-center mb-3">
-				<h5 class="card-title mb-0">{{ post.title }}</h5>
-				{% if user_authenticated %}
-				<button type="button" class="btn btn-outline-danger">Delete post</button>
-				{% endif %}
-			</div>
-			<p class="card-text">{{ post.content|truncatechars:150 }}</p>
-			<div class="d-flex justify-content-between align-items-end">
-				<a href="{% url 'blogs:post_detail' post.slug %}" class="btn btn-primary">See article</a>
-				<p class="card-text"><small class="text-body-secondary">{{ post.created_at|date:"F j, Y" }}</small></p>
-			</div>
-		</div>
-	</div>
-</div>
 
-{% endfor %}
-
-
+<!-- Footer -->
+<footer>
+    © 2025 John Doe — Powered by diasandnights.com
+</footer>
 
 
 {% endblock content %}
+
