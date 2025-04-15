@@ -57,7 +57,7 @@
         <div class="post-card position-relative">
             {% if user_authenticated %}
             <div class="post-actions position-absolute top-0 end-0 m-2">
-                <a href="#" class="btn btn-sm btn-outline-secondary me-1">Edit</a>
+                <a href="{% url 'blogs:post_edit' post.id %}" class="btn btn-sm btn-outline-secondary me-1">Edit</a>
                 <form action="#" method="POST" style="display:inline;">
                     <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
                 </form>

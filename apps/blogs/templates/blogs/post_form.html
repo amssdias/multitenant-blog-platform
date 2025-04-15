@@ -44,10 +44,12 @@
 
 
 {% block content %}
+{% if user_authenticated %}
 <div class="container create-post-wrapper">
 	<div class="post-form">
 		<h2>Create a New Post</h2>
-		<form method="POST" action="{% url 'blogs:create-post' %}">
+		<form method="POST"
+		      action="{% if object %}{% url 'blogs:post_edit' object.id %}{% else %}{% url 'blogs:create-post' %}{% endif %}">
 			{% csrf_token %}
 
 			<div class="form-floating mb-3">
@@ -58,7 +60,14 @@
 				{% endif %}
 			</div>
 
-			<input id="id_content" type="hidden" name="content">
+			<input
+					id="id_content"
+					type="hidden"
+					name="content"
+					{% if object %}
+					value="{{ object.content|safe }}"
+					{% endif %}
+			>
 			<trix-editor input="id_content"></trix-editor>
 
 			<div class="mt-4 text-end">
@@ -67,4 +76,8 @@
 		</form>
 	</div>
 </div>
+{% else %}
+
+
+{% endif %}
 {% endblock content %}
