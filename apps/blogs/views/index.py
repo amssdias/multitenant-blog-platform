@@ -4,6 +4,7 @@ from django.views.generic import ListView
 
 from apps.blogs.forms.post_form import PostForm
 from apps.blogs.models import Post
+from apps.site_config.models import SiteSettings
 
 User = get_user_model()
 
@@ -19,7 +20,6 @@ class TenantDashboardView(ListView):
         request = self.request
 
         auth_token = request.COOKIES.get("auth_token")
-
         if auth_token:
             user_data = cache.get(f"auth_token:{auth_token}")
 
@@ -30,4 +30,12 @@ class TenantDashboardView(ListView):
             else:
                 context["user_authenticated"] = False
 
+        context["site_settings"] = self.get_site_settings()
         return context
+
+    @staticmethod
+    def get_site_settings():
+        site_settings = SiteSettings.objects.all()
+        return site_settings.first() if site_settings.exists() else (
+            SiteSettings.objects.create()
+        )
