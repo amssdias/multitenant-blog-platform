@@ -32,13 +32,13 @@ class CustomLoginView(LoginView):
         response.set_cookie(
             key=settings.COOKIE_NAME,
             value=auth_token,
-            domain=f".{current_host}",  # ✅ Available on all subdomains
-            httponly=True,  # ✅ Prevents JavaScript access (security)
-            secure=False,  # ✅ Must be True in production (HTTPS)
-            # samesite="None"  # ✅ Allow cross-origin authentication
+            domain=f".{current_host}",  # Available on all subdomains
+            httponly=True,  # Prevents JavaScript access (security)
+            secure=False,  # Must be True in production (HTTPS)
+            # samesite="None"  # Allow cross-origin authentication
         )
 
-        return response  # ✅ JavaScript will handle the redirect
+        return response  # JavaScript will handle the redirect
 
     def build_subdomain_url(self):
         port = self.request.get_port()
