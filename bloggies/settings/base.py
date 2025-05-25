@@ -46,6 +46,7 @@ SHARED_APPS = [
 TENANT_APPS = [
     "django.contrib.contenttypes",
     "apps.blogs",
+    "apps.site_config",
 ]
 
 INSTALLED_APPS = SHARED_APPS + [app for app in TENANT_APPS if app not in SHARED_APPS]
