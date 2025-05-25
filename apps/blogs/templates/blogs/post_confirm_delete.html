@@ -1,0 +1,18 @@
+{% load i18n %}
+
+<div class="modal-header">
+	<h5 class="modal-title">{% trans "Confirm Deletion" %}</h5>
+	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+
+<div class="modal-body">
+	<p>{% trans "Are you sure you want to delete" %} <strong>{{ object.title }}</strong>?</p>
+</div>
+
+<div class="modal-footer">
+	<form method="POST" action="{% url 'blogs:post_delete' post.id %}">
+		{% csrf_token %}
+		<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans "Cancel" %}</button>
+		<button type="submit" class="btn btn-danger">{% trans "Yes, Delete" %}</button>
+	</form>
+</div>

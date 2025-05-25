@@ -15,6 +15,7 @@
 {% endblock css %}
 
 {% block scripts %}
+<script type="text/javascript" src="{% static 'js/deletePost.js' %}"></script>
 {% endblock scripts %}
 
 {% block header %}
@@ -38,6 +39,14 @@
 </nav>
 {% endif %}
 
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" id="deleteModalContent">
+        </div>
+    </div>
+</div>
+
+
 <!-- Hero -->
 <header class="hero">
     <div class="hero-content">
@@ -58,9 +67,10 @@
             {% if user_authenticated %}
             <div class="post-actions position-absolute top-0 end-0 m-2">
                 <a href="{% url 'blogs:post_edit' post.id %}" class="btn btn-sm btn-outline-secondary me-1">Edit</a>
-                <form action="#" method="POST" style="display:inline;">
-                    <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-                </form>
+                <button class="btn btn-sm btn-outline-danger delete-btn" data-bs-toggle="modal"
+                        data-bs-target="#deleteModal" data-url="{% url 'blogs:post_delete' post.id %}">
+                    Delete
+                </button>
             </div>
             {% endif %}
 
