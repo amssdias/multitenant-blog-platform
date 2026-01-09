@@ -20,7 +20,7 @@
 
 {% block header %}
 
-{% if user_authenticated %}
+{% if request.tenant_is_authenticated %}
 <nav class="navbar admin-nav">
 	<div class="container-fluid justify-content-end">
 		<ul class="nav">
@@ -41,7 +41,7 @@
 
 
 {% block content %}
-{% if user_authenticated %}
+{% if request.tenant_is_authenticated %}
 <div class="container create-post-wrapper">
 	<div class="post-form">
 		<h2>Create a New Post</h2>

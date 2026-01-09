@@ -42,7 +42,7 @@
 
 {% block header %}
 
-{% if user_authenticated %}
+{% if request.tenant_is_authenticated %}
 <nav class="navbar admin-nav">
     <div class="container-fluid justify-content-end">
         <ul class="nav">
@@ -83,7 +83,7 @@
 
         {% for post in posts %}
         <div class="post-card position-relative">
-            {% if user_authenticated %}
+            {% if request.tenant_is_authenticated %}
             <div class="post-actions position-absolute top-0 end-0 m-2">
                 <a href="{% url 'blogs:post_edit' post.id %}" class="btn btn-sm btn-outline-secondary me-1">Edit</a>
                 <button class="btn btn-sm btn-outline-danger delete-btn" data-bs-toggle="modal"
@@ -104,7 +104,7 @@
 </div>
 
 <!-- Floating Create New Post Button -->
-{% if user_authenticated %}
+{% if request.tenant_is_authenticated %}
 <div class="floating-btn">
     <a href="{% url 'blogs:create-post' %}" class="btn btn-success btn-lg px-4 py-2 shadow rounded-pill">
         ✍️ Create New Post

@@ -37,7 +37,7 @@
 {% endblock css %}
 
 {% block header %}
-{% if user_authenticated %}
+{% if request.tenant_is_authenticated %}
 <nav class="navbar admin-nav">
 	<div class="container-fluid justify-content-end">
 		<ul class="nav">
