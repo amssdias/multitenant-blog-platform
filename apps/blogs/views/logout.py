@@ -24,8 +24,7 @@ class LogoutCustomView(LogoutView):
 
     def get_success_url(self):
         if hasattr(self.request, "tenant"):
-            tenant_domain = self.request.tenant.domain_url
-            schema = "https"
-            if "localhost" in tenant_domain:
-                return f"http://{self.request.tenant.domain_url}:8000/"
-            return f"{schema}://{self.request.tenant.domain_url}/"
+            schema = "http" if settings.DEBUG else "https"
+            port = self.request.get_port()
+
+            return f"{schema}://{self.request.tenant.domain_url}:{port}/"

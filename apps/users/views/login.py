@@ -44,9 +44,7 @@ class CustomLoginView(LoginView):
         port = self.request.get_port()
         user_sub_domain = self.request.user.tenant.domains.first().domain
 
-        # Get the base domain
-        current_host = self.request.get_host().split(":")[0]
-        is_local = "localhost" in current_host
+        is_local = settings.DEBUG
 
         # Build the correct URL dynamically
         if is_local:
