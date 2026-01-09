@@ -31,6 +31,9 @@ SECURE_SSL_REDIRECT = False  # HTTPS redirection disabled (needed for local HTTP
 CSRF_COOKIE_SECURE = False  # CSRF cookies allowed over HTTP (enable in production)
 SESSION_COOKIE_SECURE = False  # Session cookies allowed over HTTP (enable in production)
 
+SESSION_COOKIE_DOMAIN = ".bloggies.test"  # Cookies will be shared accross subdomains
+CSRF_COOKIE_DOMAIN = ".bloggies.test"
+
 LOGGING = {
     "version": 1,  # Version of the logging configuration (always 1)
     "disable_existing_loggers": False,  # Ensures that Django’s default loggers are not disabled
