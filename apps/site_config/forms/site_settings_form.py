@@ -13,7 +13,6 @@ class SiteSettingsForm(forms.ModelForm):
             "card_background_color",
             "card_border_color",
             "heading_font_family",
-            "body_font_family",
             "hero_image_url",
         )
 
@@ -50,7 +49,6 @@ class SiteSettingsForm(forms.ModelForm):
                 }
             ),
             "heading_font_family": forms.Select(attrs={"class": "form-select"}),
-            "body_font_family": forms.Select(attrs={"class": "form-select"}),
             "hero_image_url": forms.TextInput(
                 attrs={
                     "class": "form-control"
