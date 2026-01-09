@@ -6,10 +6,9 @@ from django.views.generic.edit import FormView
 from apps.blogs.forms.post_form import PostForm
 from apps.blogs.models import Post
 from bloggies.mixins.tenant_mixin import TenantLoginRequiredMixin
-from bloggies.mixins.tenant_mixin import TenantUserContextMixin
 
 
-class PostDetailView(DetailView, TenantUserContextMixin):
+class PostDetailView(DetailView):
     model = Post
     template_name = "blogs/post_detail.html"
     context_object_name = "post"
