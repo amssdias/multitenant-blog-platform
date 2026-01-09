@@ -25,10 +25,7 @@
 	<div class="container-fluid justify-content-end">
 		<ul class="nav">
 			<li class="nav-item">
-				<a class="nav-link" href="#">Edit Hero</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="#">Settings</a>
+				<a class="nav-link" href="{% url 'blogs:tenant_index' %}">Go back</a>
 			</li>
 			<form method="post" action="{% url 'blogs:logout' %}">
 				{% csrf_token %}
