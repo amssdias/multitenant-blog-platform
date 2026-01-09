@@ -36,9 +36,6 @@
 </style>
 {% endblock css %}
 
-{% block scripts %}
-{% endblock scripts %}
-
 {% block header %}
 {% if user_authenticated %}
 <nav class="navbar admin-nav">
@@ -50,7 +47,7 @@
 			<li class="nav-item">
 				<a class="nav-link" href="#">Settings</a>
 			</li>
-			<form method="post" action="{% url 'blogs:logout' %}">
+			<form method="post" action="{% url 'users:logout' %}">
 				{% csrf_token %}
 				<button class="btn btn-primary" type="submit">Log out</button>
 			</form>

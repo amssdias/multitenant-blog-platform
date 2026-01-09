@@ -49,7 +49,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'site_config:site_settings_update' 1 %}">Settings</a>
             </li>
-            <form method="post" action="{% url 'blogs:logout' %}">
+            <form method="post" action="{% url 'users:logout' %}">
                 {% csrf_token %}
                 <button class="btn btn-primary" type="submit">Log out</button>
             </form>

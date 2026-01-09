@@ -23,6 +23,6 @@ from apps.users.views.dashboard import dashboard
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("admin_tenants/", tenant_admin_site.urls),
-    path("users/", include("apps.users.urls", namespace="users")),
+    path("users/", include("apps.users.urls_public", namespace="users")),
     path("", dashboard, name="dashboard"),
 ]
