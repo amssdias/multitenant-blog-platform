@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+
+{% block title %}Customize Blog Style{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'style/css/main.css' %}">
+<link rel="stylesheet" href="{% static 'style/css/blog.css' %}">
+<link rel="stylesheet" href="{% static 'style/css/navbar-admin.css' %}">
+{% endblock css %}
+
+{% block header %}
+
+{% if user_authenticated %}
+<nav class="navbar admin-nav">
+	<div class="container-fluid justify-content-end">
+		<ul class="nav">
+			<li class="nav-item">
+				<a class="nav-link" href="{% url 'blogs:tenant_index' %}">Go back</a>
+			</li>
+			<form method="post" action="{% url 'blogs:logout' %}">
+				{% csrf_token %}
+				<button class="btn btn-primary" type="submit">Log out</button>
+			</form>
+		</ul>
+	</div>
+</nav>
+{% endif %}
+
+{% endblock header %}
+
+{% block content %}
+{% if user_authenticated %}
+
+<div class="container py-5">
+	<div class="row justify-content-center">
+		<div class="col-md-12">
+			<div class="card shadow-lg rounded-4">
+				<div class="card-header bg-primary text-white rounded-top-4">
+					<h4 class="mb-0">Customize Your Blog Style</h4>
+				</div>
+				<div class="card-body">
+					<form method="post" class="needs-validation" novalidate>
+						{% csrf_token %}
+						{{ form.errors }}
+
+						<div class="row mb-4">
+							<div class="col-md-6">
+								<label for="id_blog_name" class="form-label">Blog title</label>
+								{{ form.blog_name }}
+							</div>
+							<div class="col-md-6">
+								<label for="id_subtitle" class="form-label">Blog subtitle</label>
+								{{ form.subtitle }}
+							</div>
+						</div>
+
+						<div class="mb-4">
+							<label for="id_hero_image_url" class="form-label">Blog image URL</label>
+							{{ form.hero_image_url }}
+						</div>
+
+						<div class="row mb-4">
+							<div class="col-md-4 mb-3 mb-md-0">
+								<label for="id_background_color" class="form-label">Background Color</label>
+								{{ form.background_color }}
+							</div>
+							<div class="col-md-4 mb-3 mb-md-0">
+								<label for="id_card_background_color" class="form-label">Card Background Color</label>
+								{{ form.card_background_color }}
+							</div>
+							<div class="col-md-4">
+								<label for="id_card_border_color" class="form-label">Card Border Color</label>
+								{{ form.card_border_color }}
+							</div>
+						</div>
+
+						<div class="row mb-4">
+							<div class="col-md-12">
+								<label for="id_heading_font_family" class="form-label">Heading Font Family</label>
+								{{ form.heading_font_family }}
+							</div>
+						</div>
+
+						<button class="btn btn-primary px-4">Save</button>
+					</form>
+
+					<hr class="my-4">
+
+					<div id="preview-box" class="p-4 rounded" style="min-height: 100px;">
+						<div id="preview-box-header">
+							<h1 id="preview-box-title" class="text-center">
+								{{ form.blog_name.value|default_if_none:"Blog title" }}
+							</h1>
+							<p id="preview-box-subtitle" class="text-center">
+								{{ form.subtitle.value|default_if_none:"blog subtitle" }}
+							</p>
+						</div>
+
+						<div id="preview-box-card" class="post-card position-relative">
+							<h4>Post title</h4>
+							<small class="text-muted d-block mb-2">December 20, 2020</small>
+							<div class="post-preview">Post content</div>
+							<a href="#" class="read-more">Read More →</a>
+						</div>
+						<p id="preview-box-paragraph" class="m-0 fs-5">This is a live preview of your blog style.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endif %}
+{% endblock content %}
+
+{% block scripts %}
+
+<script>
+
+	document.addEventListener('DOMContentLoaded', function () {
+
+		// Header Form
+		const blogName = document.getElementById('id_blog_name');
+		const blogSubtitle = document.getElementById('id_subtitle');
+		const fontSelectHeader = document.getElementById('id_heading_font_family');
+		const heroImgUrl = document.getElementById('id_hero_image_url');
+		const bgColorInput = document.getElementById('id_background_color');
+
+		// Card Form
+		const colorInputBorderCard = document.getElementById("id_card_border_color");
+		const colorInputCardBgColor = document.getElementById("id_card_background_color");
+
+		// Preview Box
+		const previewBox = document.getElementById('preview-box');
+		const previewBoxHeader = document.getElementById('preview-box-header');
+		const previewBoxTitle = document.getElementById('preview-box-title');
+		const previewBoxSubtitle = document.getElementById('preview-box-subtitle');
+		const previewBoxParagraph = document.getElementById('preview-box-paragraph');
+
+		const previewBoxCard = document.getElementById('preview-box-card');
+
+		function initPreview() {
+			// Header
+			previewBox.style.backgroundColor = bgColorInput.value;
+			previewBoxTitle.style.fontFamily = fontSelectHeader.value;
+			previewBoxSubtitle.style.fontFamily = fontSelectHeader.value;
+
+			// Card
+			previewBoxCard.style.borderLeft = `6px solid ${colorInputBorderCard.value} `;
+			previewBoxCard.style.backgroundColor = colorInputCardBgColor.value;
+		}
+
+		function updatePreviewHeaderText(event) {
+			previewBoxTitle.textContent = blogName.value;
+			previewBoxSubtitle.textContent = blogSubtitle.value;
+			previewBoxTitle.style.fontFamily = fontSelectHeader.value;
+			previewBoxSubtitle.style.fontFamily = fontSelectHeader.value;
+			previewBox.style.backgroundColor = bgColorInput.value;
+		}
+
+		function updatePreviewCardStyle(event) {
+			previewBoxCard.style.borderLeft = `6px solid ${colorInputBorderCard.value} `;
+			previewBoxCard.style.backgroundColor = colorInputCardBgColor.value;
+		}
+
+		blogName.addEventListener('keyup', updatePreviewHeaderText);
+		blogSubtitle.addEventListener('keyup', updatePreviewHeaderText);
+		fontSelectHeader.addEventListener('change', updatePreviewHeaderText);
+		bgColorInput.addEventListener("input", updatePreviewHeaderText);
+
+		colorInputBorderCard.addEventListener("input", updatePreviewCardStyle);
+		colorInputCardBgColor.addEventListener("input", updatePreviewCardStyle);
+
+		initPreview();  // Initial apply
+	});
+</script>
+
+{% endblock scripts %}
+
