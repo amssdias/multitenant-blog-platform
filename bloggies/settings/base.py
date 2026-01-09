@@ -61,6 +61,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "bloggies.core.tenant_auth_middleware.TenantAuthMiddleware",
 ]
 
 ROOT_URLCONF = "bloggies.urls"
