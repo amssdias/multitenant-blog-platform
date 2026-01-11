@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
 from apps.users.forms.signup_form import CustomSignupForm
+from apps.users.tasks.emails.verification import send_email_verification_task
 
 User = get_user_model()
 
@@ -19,4 +20,12 @@ class RegisterView(CreateView):
         return kwargs
 
     def form_valid(self, form):
-        return super().form_valid(form)
+        response = super().form_valid(form)
+        user = self.object
+
+        host = self.request.get_host()
+        scheme = self.request.scheme
+
+        send_email_verification_task(user.id, host, scheme)
+
+        return response

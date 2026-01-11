@@ -5,7 +5,7 @@ DEBUG = True
 SECRET_KEY = "pzm!wg763dggm*8#f!vi$jp&gp^l!2%j55gqyb^9t&sgwcn^53"
 AUTH_PASSWORD_VALIDATORS = []
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["*", "bloggies.test", ".bloggies.test"]
 CSRF_TRUSTED_ORIGINS = []
 
 DATABASES = {
@@ -19,7 +19,7 @@ DATABASES = {
     }
 }
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 # CORS settings for local development (relaxing security)
 CORS_ALLOW_CREDENTIALS = True  # Allow credentials (cookies, auth headers) in CORS requests
@@ -64,3 +64,7 @@ LOGGING = {
         },
     },
 }
+
+# Utils
+SITE_DOMAIN = "bloggies.test:8000"
+SITE_SCHEME = "http"
