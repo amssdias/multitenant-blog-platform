@@ -23,7 +23,6 @@ class CustomLoginView(LoginView):
 
         is_local = settings.DEBUG
 
-        # Build the correct URL dynamically
         if is_local:
             return f"http://{user_sub_domain}:{port}"
         else:
