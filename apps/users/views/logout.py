@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.contrib.auth.views import LogoutView
-from django.core.cache import cache
 
 
 class LogoutCustomView(LogoutView):
@@ -10,4 +9,12 @@ class LogoutCustomView(LogoutView):
             schema = "http" if settings.DEBUG else "https"
             port = self.request.get_port()
 
-            return f"{schema}://{self.request.tenant.domain_url}:{port}/"
+            domain_obj = self.request.tenant.domains.filter(is_primary=True).first() \
+                         or self.request.tenant.domains.first()
+
+            if not domain_obj:
+                return "/"
+
+            return f"{schema}://{domain_obj.domain}:{port}/"
+
+        return "/"
