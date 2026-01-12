@@ -34,10 +34,10 @@ class TestRegisterView(TestCase):
     def _post(self, payload):
         return self.client.post(self.url, data=payload, follow=False)
 
-    def _assert_nothing_created(self):
-        self.assertEqual(User.objects.count(), 0)
-        self.assertEqual(Tenant.objects.count(), 0)
-        self.assertEqual(Domain.objects.count(), 0)
+    def _assert_nothing_created(self, n_users, n_tenants, n_domains):
+        self.assertEqual(User.objects.count(), n_users)
+        self.assertEqual(Tenant.objects.count(), n_tenants)
+        self.assertEqual(Domain.objects.count(), n_domains)
         self.assertEqual(len(mail.outbox), 0)
 
     def _get_created_domain(self):
@@ -63,8 +63,9 @@ class TestRegisterView(TestCase):
         self.assertEqual(response["Location"], self.login_url)
 
     def test_valid_post_creates_user_in_db(self):
+        n_users = User.objects.count()
         self._post(self.valid_payload)
-        self.assertEqual(User.objects.count(), 1)
+        self.assertEqual(User.objects.count(), n_users + 1)
         user = User.objects.get(username=self.valid_payload.get("username"))
         self.assertEqual(user.email, self.valid_payload.get("email"))
 
@@ -101,46 +102,66 @@ class TestRegisterView(TestCase):
         self.assertIn("testserver", body)
 
     def test_register_without_email_is_invalid(self):
+        n_users = User.objects.count()
+        n_tenants = Tenant.objects.count()
+        n_domains = Domain.objects.count()
+
         payload = dict(self.valid_payload)
         payload["email"] = ""
 
         response = self._post(payload)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "email", status_code=200)
-        self._assert_nothing_created()
+        self._assert_nothing_created(n_users, n_tenants, n_domains)
 
     def test_register_without_username_is_invalid(self):
+        n_users = User.objects.count()
+        n_tenants = Tenant.objects.count()
+        n_domains = Domain.objects.count()
+
         payload = dict(self.valid_payload)
         payload["username"] = ""
 
         response = self._post(payload)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "username", status_code=200)
-        self._assert_nothing_created()
+        self._assert_nothing_created(n_users, n_tenants, n_domains)
 
     def test_register_without_subdomain_is_invalid(self):
+        n_users = User.objects.count()
+        n_tenants = Tenant.objects.count()
+        n_domains = Domain.objects.count()
+
         payload = dict(self.valid_payload)
         payload["subdomain"] = ""
 
         response = self._post(payload)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "subdomain", status_code=200)
-        self._assert_nothing_created()
+        self._assert_nothing_created(n_users, n_tenants, n_domains)
 
     def test_register_without_password1_is_invalid(self):
+        n_users = User.objects.count()
+        n_tenants = Tenant.objects.count()
+        n_domains = Domain.objects.count()
+
         payload = dict(self.valid_payload)
         payload["password1"] = ""
 
         response = self._post(payload)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "password", status_code=200)
-        self._assert_nothing_created()
+        self._assert_nothing_created(n_users, n_tenants, n_domains)
 
     def test_register_with_password_mismatch_is_invalid(self):
+        n_users = User.objects.count()
+        n_tenants = Tenant.objects.count()
+        n_domains = Domain.objects.count()
+
         payload = dict(self.valid_payload)
         payload["password2"] = "DifferentPass12345!"
 
         response = self._post(payload)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "password", status_code=200)
-        self._assert_nothing_created()
+        self._assert_nothing_created(n_users, n_tenants, n_domains)
