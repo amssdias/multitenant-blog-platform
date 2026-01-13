@@ -1,30 +1,53 @@
-# Django Multitenant Blog Platform
+# 🏗️ Django Multitenant Blog Platform
+
+[![Tests](https://github.com/amssdias/multitenant-blog-platform/actions/workflows/tests.yml/badge.svg)](https://github.com/amssdias/multitenant-blog-platform/actions/workflows/tests.yml)
 
 ![Django](https://img.shields.io/badge/Django-4.2-green?style=for-the-badge&logo=django)
 ![Python](https://img.shields.io/badge/Python-3.9-blue?style=for-the-badge&logo=python)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17-blue?style=for-the-badge&logo=postgresql)
 ![Redis](https://img.shields.io/badge/Redis-7.2-red?style=for-the-badge&logo=redis)
-![Multitenancy](https://img.shields.io/badge/Multitenancy-Supported-orange?style=for-the-badge)
+![Multitenancy](https://img.shields.io/badge/Architecture-Multitenant-orange?style=for-the-badge)
 
-## 🚀 About the Project
+## 🚀 Overview
 
 This is a **Django Multitenant Blog Platform** where users can sign up on the **main domain**, and upon registration,
 they get their own **subdomain** with an isolated schema to create and manage their own blog.
 
+## 🧠 Key Concepts
+
+- **Schema-based multitenancy** using PostgreSQL
+- **Subdomain routing** per tenant
+- **Isolated data per tenant**
+- **Shared users table** on the public schema
+- **CI-tested architecture**
+
 ## 🔥 Features
 
-- **Main Domain** (`example.com`)
-    - Users can **sign up** or **log in**.
-    - Upon signup, users get a **dedicated subdomain** (`user.example.com`).
-- **Subdomains** (`user.example.com`)
-    - Users are redirected here upon login.
-    - Create, edit, and manage blog posts.
-    - Each tenant has an **isolated database schema**.
-- **Tech Stack**
-    - Django with **Multitenancy**
-    - PostgreSQL as the database
-    - Redis for caching and session management
-    - Docker support (optional)
+### 🌍 Main Domain (`example.com`)
+
+- User registration & authentication
+- Tenant provisioning on signup
+- Subdomain assignment (`user.example.com`)
+
+### 🧩 Tenant Subdomains (`user.example.com`)
+
+- Automatic redirect after login
+- Blog post creation & management
+- Fully isolated PostgreSQL schema per tenant
+
+### ⚙️ Technical Highlights
+
+- Django + schema-based multitenancy
+- PostgreSQL (schemas)
+- Redis support
+- Docker-ready
+- GitHub Actions CI (tests on push & PR)
+
+
+## 🏗️ Architecture
+
+> Each user owns a tenant schema while authentication and tenant metadata live in the public schema.
+
 
 ## 🛠️ Installation & Setup
 
@@ -38,12 +61,28 @@ cd multitenant-blog
 ### 2️⃣ Install Dependencies
 
 ```sh
-pip install -r requirements.txt
+pip install pipenv
+pipenv install --dev
 ```
 
 ### 3️⃣ Configure the Environment
 
-Create a `.env` file and set up your database and Redis connections.
+Copy the example environment file and adjust values if needed:
+
+```bash
+cp .env.example .env
+```
+
+Required to run the project:
+
+- Django settings (`DJANGO_SECRET_KEY`, `DJANGO_ALLOWED_HOSTS`)
+- PostgreSQL connection (`DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_HOST`, `DB_PORT`)
+- Redis connection (`REDIS_PROTOCOL`, `REDIS_PORT`, `REDIS_PASSWORD`, `REDIS_DB_CELERY`)
+
+Optional (only if you want to test email/Celery email tasks):
+
+- SMTP settings (`EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_USE_TLS`, `EMAIL_HOST_USER`, `EMAIL_HOST_PASSWORD`,
+  `DEFAULT_FROM_EMAIL`)
 
 ### 4️⃣ Run Migrations
 
@@ -54,18 +93,55 @@ python manage.py migrate
 ### 5️⃣ Start the Development Server
 
 ```sh
-python manage.py runserver dev.localhost.com:8000
+python manage.py runserver --settings=bloggies.settings.settings_development
 ```
 
-Ensure you have added `dev.localhost.com` and any test subdomains (`blog1.localhost.com`, `blog2.localhost.com`) to your
-**hosts file**.
+## 🖥️ Local subdomain setup
 
-## 🎯 How It Works
+To enable subdomains locally, configure your hosts file:
 
-1. **User signs up on the main domain**.
-2. **A new subdomain and schema are created**.
-3. **User is redirected to their subdomain** upon login.
-4. **User can create and manage blog posts** from their subdomain.
+👉 [Localhost multitenancy setup guide](https://github.com/amssdias/multitenant-blog-platform/wiki/Multitenancy-Localhost-Setup)
+
+
+## 🧪 Testing & CI
+
+- Automated tests run on every push request
+- PostgreSQL-backed test environment
+- GitHub Actions workflow: tests.yml
+
+```shell
+pipenv run python manage.py test --settings=bloggies.settings.settings_tests
+```
+
+
+## 🎯 Use Cases
+
+- SaaS blog platforms
+- Multi-tenant CMS systems
+- Portfolio-ready Django architecture
+- Learning reference for schema-based multitenancy
+
+
+## 🧩 Built to demonstrate real-world Django multitenant architecture
+
+![Multitenant Architecture](docs/images/multitenant-architecture.png)
+
+This project is intentionally designed as a **production-style reference** for building
+**schema-based multitenant applications** with Django.
+
+It focuses on **architectural correctness and real constraints**, rather than shortcuts
+commonly used in tutorials.
+
+Specifically, it demonstrates:
+
+- Schema-based data isolation using **PostgreSQL schemas**
+- Subdomain-driven tenant resolution (`user.example.com`)
+- A shared **public schema** for authentication and tenant metadata
+- Clean separation between **public** and **tenant-specific** concerns
+- A CI pipeline that validates the architecture using real services
+
+The goal is to showcase how a real SaaS-style multitenant Django application can be structured,
+tested, and reasoned about.
 
 ---
 🚀 Happy Coding! 🎯
