@@ -2,10 +2,11 @@
 
 [![Tests](https://github.com/amssdias/multitenant-blog-platform/actions/workflows/tests.yml/badge.svg)](https://github.com/amssdias/multitenant-blog-platform/actions/workflows/tests.yml)
 
-![Django](https://img.shields.io/badge/Django-4.2-green?style=for-the-badge&logo=django)
 ![Python](https://img.shields.io/badge/Python-3.9-blue?style=for-the-badge&logo=python)
+![Django](https://img.shields.io/badge/Django-4.2-green?style=for-the-badge&logo=django)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17-blue?style=for-the-badge&logo=postgresql)
 ![Redis](https://img.shields.io/badge/Redis-7.2-red?style=for-the-badge&logo=redis)
+![Celery](https://img.shields.io/badge/Celery-5.6-37814A?style=for-the-badge&logo=celery)
 ![Multitenancy](https://img.shields.io/badge/Architecture-Multitenant-orange?style=for-the-badge)
 
 ## 🚀 Overview
