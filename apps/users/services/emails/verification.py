@@ -1,13 +1,17 @@
 from dataclasses import dataclass
 
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from django.urls import reverse
 from django.utils.translation import gettext as _
 
+from apps.users.exceptions import EmailVerificationUserNotFound, EmailAlreadyVerified
 from apps.users.services.tokens.email_verification import (
     create_email_verification_token,
 )
+
+User = get_user_model()
 
 
 @dataclass(frozen=True)
@@ -53,3 +57,15 @@ def send_verification_email(user_email_data: EmailVerificationEmailData, host, s
 def get_verification_url(token, scheme, host):
     verify_path = reverse("users:verify_email", kwargs={"token": token})
     return f"{scheme}://{host}{verify_path}"
+
+
+def activate_user_email(user_id: int) -> None:
+    user = User.objects.filter(id=user_id).first()
+    if not user:
+        raise EmailVerificationUserNotFound()
+
+    if user.is_active:
+        raise EmailAlreadyVerified()
+
+    user.is_active = True
+    user.save(update_fields=["is_active"])

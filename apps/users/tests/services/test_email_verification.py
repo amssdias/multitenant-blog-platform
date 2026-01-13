@@ -1,11 +1,13 @@
 from dataclasses import FrozenInstanceError
+
 from django.core import mail
 from django.test import TestCase, SimpleTestCase, override_settings
 from django.urls import reverse
 from django.utils.translation import gettext as _
 
+from apps.users.exceptions import EmailVerificationUserNotFound, EmailAlreadyVerified
 from apps.users.services.emails.verification import build_email_verification_payload, EmailVerificationEmailData, \
-    get_verification_url, send_verification_email
+    get_verification_url, send_verification_email, activate_user_email
 from apps.users.tests.factories.users import UserFactory
 
 
@@ -97,3 +99,23 @@ class SendVerificationEmailTests(SimpleTestCase):
         email = mail.outbox[0]
         self.assertIsNone(email.from_email)
         self.assertEqual(email.to, [payload.email])
+
+
+class ActivateUserEmailTests(TestCase):
+    def test_raises_user_not_found_when_user_does_not_exist(self):
+        with self.assertRaises(EmailVerificationUserNotFound):
+            activate_user_email(user_id=999999)
+
+    def test_raises_email_already_verified_when_user_is_already_active(self):
+        user = UserFactory(is_active=True)
+
+        with self.assertRaises(EmailAlreadyVerified):
+            activate_user_email(user_id=user.id)
+
+    def test_activates_inactive_user_and_persists_change(self):
+        user = UserFactory(is_active=False)
+
+        activate_user_email(user_id=user.id)
+
+        user.refresh_from_db()
+        self.assertTrue(user.is_active)
