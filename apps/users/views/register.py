@@ -1,7 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
-
+from django.contrib import messages
+from django.utils.translation import gettext as _
 from apps.users.forms.signup_form import CustomSignupForm
 from apps.users.tasks.emails.verification import send_email_verification_task
 
@@ -26,6 +27,13 @@ class RegisterView(CreateView):
         host = self.request.get_host()
         scheme = self.request.scheme
 
-        send_email_verification_task(user.id, host, scheme)
+        send_email_verification_task.delay(user.id, host, scheme)
+
+        messages.info(
+            self.request,
+            _(
+                "Account created! Please check your email and click the verification link to activate your account."
+            ),
+        )
 
         return response

@@ -55,7 +55,11 @@ def send_verification_email(user_email_data: EmailVerificationEmailData, host, s
 
 
 def get_verification_url(token, scheme, host):
-    verify_path = reverse("users:verify_email", kwargs={"token": token})
+    verify_path = reverse(
+        "users:verify_email",
+        kwargs={"token": token},
+        urlconf=settings.PUBLIC_SCHEMA_URLCONF
+    )
     return f"{scheme}://{host}{verify_path}"
 
 
