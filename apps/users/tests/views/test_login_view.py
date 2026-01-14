@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.core import mail
 from django.test import TestCase, override_settings
 from django.urls import reverse
 
@@ -128,3 +129,19 @@ class TestCustomLoginView(TestCase):
         response = self.client.post(self.url, data={"username": "u2", "password": "1234"})
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "missing domain", status_code=200)
+
+    def test_inactive_user_login_triggers_confirmation_email(self):
+        self.user.is_active = False
+        self.user.save(update_fields=["is_active"])
+
+        self.assertEqual(len(mail.outbox), 0)
+
+        response = self._post_login()
+        self.assertEqual(response.status_code, 200)
+
+        # should send a verification/confirmation email
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn(self.user.email, mail.outbox[0].to)
+
+        self.user.is_active = True
+        self.user.save(update_fields=["is_active"])
