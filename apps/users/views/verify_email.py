@@ -1,7 +1,6 @@
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import get_user_model
-from django.core.signing import BadSignature, SignatureExpired
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
@@ -10,7 +9,7 @@ from django.views import View
 from apps.users.exceptions import EmailVerificationTokenExpired, EmailVerificationTokenInvalid, \
     EmailVerificationUserNotFound, EmailAlreadyVerified
 from apps.users.services.emails.verification import activate_user_email
-from apps.users.services.tokens.email_verification import verify_email_token, get_user_id_from_verification_token
+from apps.users.services.tokens.email_verification import get_user_id_from_verification_token
 
 User = get_user_model()
 
