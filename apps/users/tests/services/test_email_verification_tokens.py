@@ -4,7 +4,7 @@ from django.core import signing
 from django.core.signing import BadSignature, SignatureExpired, TimestampSigner
 from django.test import SimpleTestCase
 
-from apps.users.exceptions import (
+from apps.users.domain.exceptions import (
     EmailVerificationTokenExpired,
     EmailVerificationTokenInvalid,
 )

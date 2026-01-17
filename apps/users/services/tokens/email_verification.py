@@ -1,6 +1,6 @@
 from django.core.signing import TimestampSigner, BadSignature, SignatureExpired
 
-from apps.users.exceptions import (
+from apps.users.domain.exceptions import (
     EmailVerificationTokenExpired,
     EmailVerificationTokenInvalid,
 )

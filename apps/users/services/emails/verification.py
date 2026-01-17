@@ -6,7 +6,10 @@ from django.core.mail import send_mail
 from django.urls import reverse
 from django.utils.translation import gettext as _
 
-from apps.users.exceptions import EmailVerificationUserNotFound, EmailAlreadyVerified
+from apps.users.domain.exceptions import (
+    EmailVerificationUserNotFound,
+    EmailAlreadyVerified,
+)
 from apps.users.services.tokens.email_verification import (
     create_email_verification_token,
 )
@@ -58,7 +61,7 @@ def get_verification_url(token, scheme, host):
     verify_path = reverse(
         "users:verify_email",
         kwargs={"token": token},
-        urlconf=settings.PUBLIC_SCHEMA_URLCONF
+        urlconf=settings.PUBLIC_SCHEMA_URLCONF,
     )
     return f"{scheme}://{host}{verify_path}"
 

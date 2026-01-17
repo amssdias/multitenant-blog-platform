@@ -5,9 +5,17 @@ from django.test import TestCase, SimpleTestCase, override_settings
 from django.urls import reverse
 from django.utils.translation import gettext as _
 
-from apps.users.exceptions import EmailVerificationUserNotFound, EmailAlreadyVerified
-from apps.users.services.emails.verification import build_email_verification_payload, EmailVerificationEmailData, \
-    get_verification_url, send_verification_email, activate_user_email
+from apps.users.domain.exceptions import (
+    EmailVerificationUserNotFound,
+    EmailAlreadyVerified,
+)
+from apps.users.services.emails.verification import (
+    build_email_verification_payload,
+    EmailVerificationEmailData,
+    get_verification_url,
+    send_verification_email,
+    activate_user_email,
+)
 from apps.users.tests.factories.users import UserFactory
 
 
