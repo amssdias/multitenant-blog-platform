@@ -36,6 +36,11 @@ services:
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_HOST=db
       - DB_PORT=5432
+      - REDIS_PROTOCOL=redis
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - REDIS_HOST=redis-tenant
+      - REDIS_PORT=6379
+      - REDIS_DB_CELERY=${REDIS_DB_CELERY}
       - DJANGO_SETTINGS_MODULE=bloggies.settings.settings_development
     depends_on:
       - db
