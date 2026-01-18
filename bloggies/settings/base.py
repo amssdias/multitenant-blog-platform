@@ -174,11 +174,25 @@ CACHES = {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
         "LOCATION": REDIS_URL,
         "KEY_PREFIX": DJANGO_REDIS_KEY_PREFIX,
+        "VERSION": 1,
+        "OPTIONS": {
+            "db": DJANGO_REDIS_CACHE_DB,
+        },
+    },
+    "sessions": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": REDIS_URL,
+        "KEY_PREFIX": "users:sessions",
+        "VERSION": 1,
         "OPTIONS": {
             "db": DJANGO_REDIS_CACHE_DB,
         },
     }
 }
+
+# Sessions
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "sessions"
 
 # Celery
 REDIS_DB_CELERY = os.getenv("REDIS_DB_CELERY")
