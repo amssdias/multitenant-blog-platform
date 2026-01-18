@@ -14,6 +14,7 @@ factory-boy = "*"
 
 [dev-packages]
 black = "*"
+django-silk = "*"
 
 [requires]
 python_version = "3.9"
