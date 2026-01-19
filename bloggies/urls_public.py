@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
 
 from apps.tenants.admin import tenant_admin_site
 from apps.users.views.dashboard import dashboard
@@ -26,3 +27,8 @@ urlpatterns = [
     path("users/", include("apps.users.urls_public", namespace="users")),
     path("", dashboard, name="dashboard"),
 ]
+
+if settings.DEBUG:
+    urlpatterns = [
+                      path("silk/", include("silk.urls", namespace="silk")),
+                  ] + urlpatterns

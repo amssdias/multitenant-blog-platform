@@ -3,6 +3,12 @@ from .base import *
 
 DEBUG = True
 SECRET_KEY = "pzm!wg763dggm*8#f!vi$jp&gp^l!2%j55gqyb^9t&sgwcn^53"
+
+SHARED_APPS += ["silk"]
+INSTALLED_APPS += ["silk"]
+MIDDLEWARE = ["silk.middleware.SilkyMiddleware", *MIDDLEWARE]
+
+
 AUTH_PASSWORD_VALIDATORS = []
 
 ALLOWED_HOSTS = ["*", "bloggies.test", ".bloggies.test"]
