@@ -1,0 +1,2 @@
+POST_ACTION_PUBLISH = "publish"
+POST_ACTION_DRAFT = "draft"

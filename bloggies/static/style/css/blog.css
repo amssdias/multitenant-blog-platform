@@ -90,6 +90,31 @@ body {
   padding: 0.25rem 0.5rem;
 }
 
+/* Draft post card */
+.post-card--draft {
+    background-color: #fff7e6 !important;
+    border-left-color: #f0ad4e !important;
+    padding-bottom: 2.5rem; /* room for the badge */
+}
+
+/* Badge base */
+.post-badge {
+    position: absolute;
+    left: 1rem;
+    bottom: 1rem;          /* <-- move to bottom */
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    line-height: 1;
+}
+
+/* Draft badge */
+.post-badge--draft {
+    background: #f0ad4e;
+    color: #1f1f1f;
+}
+
 /* Floating Button */
 .floating-btn {
   position: fixed;

@@ -5,6 +5,8 @@ from django.views.generic.edit import FormView
 
 from apps.blogs.forms.post_form import PostForm
 from apps.blogs.models import Post
+from apps.blogs.views.mixins.post_publish import PostPublishActionMixin
+from apps.site_config.models import SiteSettings
 from bloggies.mixins.tenant_mixin import TenantLoginRequiredMixin
 
 
@@ -14,25 +16,18 @@ class PostDetailView(DetailView):
     context_object_name = "post"
 
 
-class PostCreateView(FormView, TenantLoginRequiredMixin):
+
+class PostCreateView(PostPublishActionMixin, FormView, TenantLoginRequiredMixin):
     template_name = "blogs/post_form.html"
     form_class = PostForm
     success_url = reverse_lazy("blogs:tenant_index")
 
-    def form_valid(self, form):
-        form.save(commit=True)
-        return super().form_valid(form)
 
-
-class PostEditView(UpdateView, TenantLoginRequiredMixin):
+class PostEditView(PostPublishActionMixin, UpdateView, TenantLoginRequiredMixin):
     template_name = "blogs/post_form.html"
     form_class = PostForm
     model = Post
     success_url = reverse_lazy("blogs:tenant_index")
-
-    def form_valid(self, form):
-        form.save(commit=True)
-        return super().form_valid(form)
 
 
 class PostDeleteView(DeleteView, TenantLoginRequiredMixin):

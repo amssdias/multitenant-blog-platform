@@ -82,7 +82,8 @@
     <div class="col-lg-8 mx-auto">
 
         {% for post in posts %}
-        <div class="post-card position-relative">
+        <div class="post-card position-relative {% if request.tenant_is_authenticated and not post.is_published %} post-card--draft{% endif %}">
+
             {% if request.tenant_is_authenticated %}
             <div class="post-actions position-absolute top-0 end-0 m-2">
                 <a href="{% url 'blogs:post_edit' post.id %}" class="btn btn-sm btn-outline-secondary me-1">Edit</a>
@@ -91,10 +92,15 @@
                     Delete
                 </button>
             </div>
+
+            {% if not post.is_published %}
+            <span class="post-badge post-badge--draft">Draft</span>
+            {% endif %}
             {% endif %}
 
             <h4>{{ post.title }}</h4>
             <small class="text-muted d-block mb-2">{{ post.created_at|date:"F j, Y" }}</small>
+
             <div class="post-preview">{{ post.content|striptags|truncatechars:150 }}</div>
             <a href="{% url 'blogs:post_detail' post.slug %}" class="read-more">Read More →</a>
         </div>
