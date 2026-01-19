@@ -15,6 +15,17 @@ class PostDetailView(DetailView):
     template_name = "blogs/post_detail.html"
     context_object_name = "post"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["site_settings"] = self.get_site_settings()
+        return context
+
+    @staticmethod
+    def get_site_settings():
+        site_settings = SiteSettings.objects.all()
+        return site_settings.first() if site_settings.exists() else (
+            SiteSettings.objects.create()
+        )
 
 
 class PostCreateView(PostPublishActionMixin, FormView, TenantLoginRequiredMixin):

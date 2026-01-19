@@ -47,7 +47,7 @@
     <div class="container-fluid justify-content-end">
         <ul class="nav">
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'site_config:site_settings_update' 1 %}">Settings</a>
+                <a class="nav-link" href="{% url 'site_config:site_settings_update' site_settings.id %}">Settings</a>
             </li>
             <form method="post" action="{% url 'users:logout' %}">
                 {% csrf_token %}

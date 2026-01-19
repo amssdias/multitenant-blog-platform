@@ -7,7 +7,6 @@ body {
 .hero {
     position: relative;
     height: 60vh;
-    background: url('https://via.placeholder.com/1600x600?text=Tenant+Banner') center center / cover no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;

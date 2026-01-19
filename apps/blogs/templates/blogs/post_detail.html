@@ -2,35 +2,21 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}
-{% trans "Tenant Blog" %}
-{% endblock title %}
+{% block title %}{% trans "Tenant Blog" %}{% endblock title %}
 
 {% block description %}
 {% trans "" %}
 {% endblock description %}
 
 {% block css %}
+<link rel="stylesheet" href="{% static 'style/css/post-detail.css' %}">
+<link rel="stylesheet" href="{% static 'style/css/navbar.css' %}">
+<link rel="stylesheet" href="{% static 'style/css/navbar-admin.css' %}">
+
 <style>
-	.post-body-content {
-		font-size: 1.125rem;
-		line-height: 1.7;
-	}
-
-	.post-body-content img {
-		max-width: 100%;
-		height: auto;
-		border-radius: 8px;
-		margin: 1rem 0;
-	}
-
-	.post-hero h1 {
-		font-size: 2.75rem;
-		color: #fff;
-	}
-
-	.hero-overlay {
-		backdrop-filter: blur(2px);
+	.post-hero {
+		background: url({{ site_settings.hero_image_url|safe }}) center center / cover no-repeat !important;
+		font-family: {{ site_settings.heading_font_family }}
 	}
 
 </style>
@@ -42,28 +28,20 @@
 	<div class="container-fluid justify-content-end">
 		<ul class="nav">
 			<li class="nav-item">
-				<a class="nav-link" href="#">Edit Hero</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="#">Settings</a>
+				<a class="nav-link" href="{% url 'site_config:site_settings_update' site_settings.id %}">Settings</a>
 			</li>
 			<form method="post" action="{% url 'users:logout' %}">
 				{% csrf_token %}
 				<button class="btn btn-primary" type="submit">Log out</button>
 			</form>
 		</ul>
-            </div>
+	</div>
 </nav>
 {% endif %}
 
 <header>
 	<!-- Hero -->
-	<section class="post-hero position-relative text-white text-center" style="
-            background: url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=2566&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') center center/cover no-repeat;
-            min-height: 350px;
-            display: flex;
-            align-items: center;
-            justify-content: center;">
+	<section class="post-hero position-relative text-white text-center">
 		<div class="hero-overlay position-absolute top-0 start-0 w-100 h-100"
 		     style="background: rgba(0,0,0,0.5); z-index: 1;"></div>
 		<div class="container position-relative z-2">
