@@ -23,15 +23,13 @@ class TestCustomLoginView(TestCase):
             email="test@example.com",
             password=cls.password
         )
+        Tenant.auto_create_schema = False  # 🚫 no CREATE SCHEMA, no tenant migrations
         cls.tenant = Tenant.objects.create(name="Tenant 1", schema_name="tenant1", owner=cls.user)
         cls.domain = Domain.objects.create(
             tenant=cls.tenant,
             domain="tenant1.testserver.com",
             is_primary=True,
         )
-
-    def setUp(self):
-        Tenant.auto_create_schema = False  # 🚫 no CREATE SCHEMA, no tenant migrations
 
     @classmethod
     def tearDownClass(cls):
