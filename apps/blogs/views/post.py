@@ -28,13 +28,13 @@ class PostDetailView(DetailView):
         )
 
 
-class PostCreateView(PostPublishActionMixin, FormView, TenantLoginRequiredMixin):
+class PostCreateView(TenantLoginRequiredMixin, PostPublishActionMixin, FormView):
     template_name = "blogs/post_form.html"
     form_class = PostForm
     success_url = reverse_lazy("blogs:tenant_index")
 
 
-class PostEditView(PostPublishActionMixin, UpdateView, TenantLoginRequiredMixin):
+class PostEditView(TenantLoginRequiredMixin, PostPublishActionMixin, UpdateView):
     template_name = "blogs/post_form.html"
     form_class = PostForm
     model = Post
