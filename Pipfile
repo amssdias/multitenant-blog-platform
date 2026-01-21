@@ -11,6 +11,7 @@ psycopg = { extras = ["binary"], version = "*" }
 python-dotenv = "*"
 celery = "*"
 factory-boy = "*"
+django-summernote = "*"
 
 [dev-packages]
 black = "*"
