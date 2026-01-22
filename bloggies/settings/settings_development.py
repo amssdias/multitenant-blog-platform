@@ -74,3 +74,6 @@ LOGGING = {
 # Utils
 SITE_DOMAIN = "bloggies.test:8000"
 SITE_SCHEME = "http"
+
+# Summernote
+SUMMERNOTE_CONFIG["attachment_absolute_uri"] = True

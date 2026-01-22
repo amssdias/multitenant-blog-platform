@@ -145,8 +145,8 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -191,7 +191,7 @@ CACHES = {
         "OPTIONS": {
             "db": DJANGO_REDIS_CACHE_DB,
         },
-    }
+    },
 }
 
 # Sessions
@@ -221,7 +221,34 @@ SUMMERNOTE_CONFIG = {
     "summernote": {
         "width": "100%",
         "height": "1000",
+        "toolbar": [
+            ["style", ["style"]],
+            [
+                "font",
+                [
+                    "bold",
+                    "italic",
+                    "underline",
+                    "superscript",
+                    "subscript",
+                    "strikethrough",
+                    "clear",
+                ],
+            ],
+            ["fontname", ["fontname"]],
+            ["fontsize", ["fontsize"]],
+            ["color", ["color"]],
+            ["para", ["ul", "ol", "paragraph"]],
+            ["table", ["table"]],
+            ["insert", ["link", "picture", "video"]],
+            ["insert", ["hr"]],
+            ["view", ["fullscreen", "undo", "redo"]],
+        ],
     },
-    "disable_attachment": False,
+    # Require users to be authenticated for uploading attachments.
     "attachment_require_authentication": True,
+    "disable_attachment": False,
+
+    # Set to `False` to return attachment paths in relative URIs.
+    "attachment_absolute_uri": False,
 }
