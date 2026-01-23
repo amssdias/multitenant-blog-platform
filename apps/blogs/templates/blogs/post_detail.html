@@ -60,11 +60,9 @@
 <section class="py-5" style="background: linear-gradient(to bottom, #f9f9fb 0%, #ffffff 100%);">
 	<div class="row justify-content-center">
 		<div class="col-lg-6 col-md-10 col-sm-10 col-12">
-			<article class="post-body-content bg-white p-4 p-md-5 rounded shadow-sm">
-				{{ post.content|safe }}
-
-				{% if user_authenticated %}
-				<div class="mt-5 text-end">
+			<article class="post-body-content bg-white p-4 p-md-5 rounded shadow-sm position-relative">
+				{% if request.tenant_is_authenticated %}
+				<div class="text-end position-absolute top-0 end-0 p-3">
 					<a href="{% url 'blogs:post_edit' post.id %}" class="btn btn-outline-secondary me-2">Edit</a>
 					<form method="POST" action="#" style="display:inline;">
 						{% csrf_token %}
@@ -72,6 +70,9 @@
 					</form>
 				</div>
 				{% endif %}
+
+				{{ post.content|safe }}
+
 			</article>
 		</div>
 	</div>
