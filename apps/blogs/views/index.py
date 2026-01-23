@@ -11,6 +11,7 @@ class TenantDashboardView(ListView):
     model = Post
     template_name = "blogs/index.html"
     context_object_name = "posts"
+    queryset = Post.objects.all().order_by("-created_at")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
