@@ -16,6 +16,7 @@
 
 {% block scripts %}
 <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
+{{ form.media }}
 {% endblock scripts %}
 
 {% block header %}
@@ -57,15 +58,7 @@
 				{% endif %}
 			</div>
 
-			<input
-					id="id_content"
-					type="hidden"
-					name="content"
-					{% if object %}
-					value="{{ object.content|safe }}"
-					{% endif %}
-			>
-			<trix-editor input="id_content"></trix-editor>
+			{{ form.content }}
 
 			<div class="mt-4 text-end">
 				<button type="submit" class="btn btn-secondary btn-submit" name="action" value="draft">Save as draft
