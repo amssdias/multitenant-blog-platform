@@ -16,3 +16,15 @@ class EmailVerificationUserNotFound(EmailVerificationError):
 
 class EmailAlreadyVerified(EmailVerificationError):
     pass
+
+
+class EmailVerificationFailed(EmailVerificationError):
+    pass
+
+
+class EmailVerificationFailedTransient(EmailVerificationFailed):
+    """Verification email failed due to a temporary issue (retryable)."""
+
+
+class EmailVerificationFailedPermanent(EmailVerificationFailed):
+    """Verification email failed due to a permanent issue (non-retryable)."""

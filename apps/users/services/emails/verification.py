@@ -2,17 +2,20 @@ from dataclasses import dataclass
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.core.mail import send_mail
 from django.urls import reverse
 from django.utils.translation import gettext as _
 
 from apps.users.domain.exceptions import (
     EmailVerificationUserNotFound,
     EmailAlreadyVerified,
+    EmailVerificationFailedTransient,
+    EmailVerificationFailedPermanent,
 )
 from apps.users.services.tokens.email_verification import (
     create_email_verification_token,
 )
+from integrations.email.exceptions import EmailTransientError, EmailPermanentError
+from integrations.email.mailer import send_templated_email
 
 User = get_user_model()
 
@@ -35,26 +38,32 @@ def build_email_verification_payload(*, user):
 
 
 def send_verification_email(user_email_data: EmailVerificationEmailData, host, scheme):
-    email_verification_url = get_verification_url(user_email_data.token, scheme, host)
+    verify_url = get_verification_url(user_email_data.token, scheme, host)
 
     subject = _("Confirm your email")
-    message = _(
-        "Hi {username},\n\n"
-        "Thanks for signing up. Please confirm your email by clicking the link below:\n"
-        "{verify_url}\n\n"
-        "If you didn’t create this account, you can ignore this email.\n"
-    ).format(username=user_email_data.username, verify_url=email_verification_url)
 
-    from_email = getattr(settings, "DEFAULT_FROM_EMAIL", None)
-    recipient_list = [user_email_data.email]
+    context = {
+        "site_name": getattr(settings, "SITE_NAME", "Bloggies"),
+        "protocol": scheme,
+        "domain": host,
+        "token": user_email_data.token,
+        "username": user_email_data.username,
+        "verify_url": verify_url,
+    }
 
-    send_mail(
-        subject=str(subject),
-        message=str(message),
-        from_email=from_email,
-        recipient_list=recipient_list,
-        fail_silently=False,
-    )
+    try:
+
+        send_templated_email(
+            subject=subject,
+            to=[user_email_data.email],
+            template_html="users/registration/verification_email.html",
+            template_txt="users/registration/verification_email.txt",
+            context=context,
+        )
+    except EmailTransientError as exc:
+        raise EmailVerificationFailedTransient() from exc
+    except EmailPermanentError as exc:
+        raise EmailVerificationFailedPermanent() from exc
 
 
 def get_verification_url(token, scheme, host):
